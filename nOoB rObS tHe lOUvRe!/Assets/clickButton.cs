@@ -1,0 +1,154 @@
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class clickButton : MonoBehaviour
+{
+
+    [Header("Task Status")]
+    public string requiredItem;
+    public bool taskCompleted = false;
+    public taskManager managerRef;
+    public string taskPrize;
+
+    [Header("For the Notebook")]
+    public Animator checkAnimator;
+    //prob make a reference to the prizes animator so that it will be given to the guy
+
+
+    [Header("General")]
+    public bool canBeClicked = true;
+    public Animator interactAnimator;
+    public GameObject godBox;
+    public Animator godBoxAnimator;
+    public TMP_Text characterName;
+    public TMP_Text taskLine;
+    public movementScript moveRef;
+    public int bgSortingLayer;
+
+    [Header("Conversation Info")]
+    public string NPCname;
+    public string[] texts;
+    public int currentIndex;
+    public bool firstInteraction = true;
+    public bool postTask = false;
+
+    [Header("Cafe Mode Shit")]
+    //public static bool inCafeMode = false;
+    public changePages changePgRef;
+    public GameObject menu;
+
+    [Header("In Interaction")]
+    public static bool inInteractionMode = false;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        godBox.SetActive(false);
+        menu.SetActive(false);
+        currentIndex = 0;
+        firstInteraction = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //switch(movementScript._myPlayer.myState)
+        //{
+        //    case movementScript.playerState.ONPHONE:
+        //        break;
+
+        //}
+
+
+        if (gameObject.activeSelf && canBeClicked==true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !inInteractionMode && !openWallPaper.inSheetMode)
+        {
+            click();
+        }
+
+        if (!changePgRef.bookOpen)
+        {
+            //NOTE FOR LATER, THIS DOESNT WORK, NOT A PRIORITY< it gets set active and the sorting order changes but for some reason it just doesnt show
+            changePgRef.greyBG.SetActive(cafeWorkerClick.inCafeMode);
+            moveRef.greyNonUIBG.SetActive(inInteractionMode);
+            SpriteRenderer spriteRenderer = moveRef.greyNonUIBG.gameObject.GetComponent<SpriteRenderer>();
+            spriteRenderer.sortingOrder = bgSortingLayer;
+        }
+
+        //if (CompareTag("cafeButton"))
+        //{
+        //    menu.SetActive(cafeWorkerClick.inCafeMode);
+        //}
+
+    }
+
+    public void click()
+    {
+        characterName.text = NPCname;
+        //if its the first interaction w this button, it should say the first line
+        if (firstInteraction)
+        {
+            currentIndex = 0;
+            taskLine.text = texts[currentIndex];
+        }
+        else
+        {
+            if (!taskCompleted && !string.IsNullOrEmpty(requiredItem))
+            {
+                if (managerRef.checkInventory(requiredItem))
+                {
+                    //task completed line
+                    taskCompleted = true;
+                    currentIndex = 2;
+                    taskLine.text = texts[currentIndex];
+                    managerRef.completeTask(checkAnimator);
+                    giveItem giveItemRef = gameObject.GetComponent<giveItem>();
+                    giveItemRef.completeAnimation();
+
+                }
+                else
+                {
+                    //hint line
+                    currentIndex = 1;
+                    taskLine.text = texts[currentIndex];
+                }
+            }
+            if (postTask)
+            {
+                currentIndex = 3;
+                taskLine.text = texts[currentIndex];
+            }
+        
+        }
+        
+
+        canBeClicked = false; //spam protection
+        interactAnimator.SetBool("click", true); //clicks button
+        godBox.SetActive(true); //sets god box active
+        godBoxAnimator.SetBool("fadeIn", true); //fades in god box
+        StartCoroutine(spamProtection()); //wait coroutine for spam protection
+        //taskLine.gameObject.SendMessage("CheckText", taskLine.text); 
+
+        if (CompareTag("normalButton"))
+        {
+            inInteractionMode = true;
+        }
+    }
+
+    //public void nextText()
+    //{
+    //    currentIndex++;
+    //    if (currentIndex >= texts.Length) { currentIndex = texts.Length - 1; }
+    //}
+
+    public IEnumerator spamProtection()
+    {
+        yield return new WaitForSeconds(.5f);
+        interactAnimator.SetBool("click", false);
+    }
+
+}
+
+
+
