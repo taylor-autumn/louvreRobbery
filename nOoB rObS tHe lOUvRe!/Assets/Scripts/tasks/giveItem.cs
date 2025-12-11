@@ -3,8 +3,8 @@ using UnityEngine;
 public class giveItem : MonoBehaviour
 {
     [Header("Item")]
-    public Animator itemAnimator;
     public GameObject item;
+    public GameObject item2;
 
     [Header("Character targets")]
     public Animator targetCharacterAnim;
@@ -25,21 +25,32 @@ public class giveItem : MonoBehaviour
     public void completeAnimation()
     {
         item.SetActive(true);
-        //itemAnimator.SetBool("complete", true);
         Invoke(nameof(disableItem), 2.0f);
+    }
+
+    public void giveItem2()
+    {
+        item2.SetActive(true);
+        Invoke(nameof(disableItem2), 2.0f);
     }
 
     public void disableItem()
     {
         item.SetActive(false);
     }
+    public void disableItem2()
+    {
+        item2.SetActive(false);
+    }
 
     //this triggers as a event in the animation triggered above
     public void advanceCharacterAnim()
     {
-        
-        targetCharacterAnim.SetBool("complete", true);
-        targetCharacterAnim2.SetBool("complete", true);
+        if (gameObject.CompareTag("phoneButton"))
+        {
+            targetCharacterAnim.SetBool("complete", true);
+            targetCharacterAnim2.SetBool("complete", true);
+        }
     }
 
 }

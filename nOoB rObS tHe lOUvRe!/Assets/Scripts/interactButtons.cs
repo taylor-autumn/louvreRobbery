@@ -11,6 +11,7 @@ public class interactButtons : MonoBehaviour
     public GameObject phoneInteractButton;
     public GameObject phoneButton;
     public taskManager managerRef;
+    public Animator mouseAnimator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,23 +29,24 @@ public class interactButtons : MonoBehaviour
             cafeWorkerClick.inCafeMode = false;
             clickButton.inInteractionMode = false;
             StartCoroutine(delayBoxInactive());
-            if (clickRef.firstInteraction)
-            {
-                clickRef.firstInteraction = false;
-            }
             if (clickRef.taskCompleted)
             {
                 clickRef.postTask = true;
             }
             
-            clickButton phoneButtonScript = phoneInteractButton.GetComponent<clickButton>();
-            if (phoneButtonScript.taskCompleted)
+            if (interactionBox.CompareTag("phoneButton"))
             {
-                managerRef.AddToInventory(phoneButtonScript.taskPrize);
-                phoneButton.SetActive(true);
-                //here I would reference the prizes animator and give it to the guy
+                clickButton phoneButtonScript = phoneInteractButton.GetComponent<clickButton>();
+                if (phoneButtonScript.taskCompleted)
+                {
+                    managerRef.AddToInventory(phoneButtonScript.taskPrize);
+                    phoneButton.SetActive(true);
+                }
             }
-
+            if (interactionBox.CompareTag("mouseButton"))
+            {
+                mouseAnimator.SetBool("out", false);
+            }
         }
     }
 

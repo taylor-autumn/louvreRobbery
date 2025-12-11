@@ -3,8 +3,8 @@ guid: 01fc34eafb37d08429028e7f6a577a57
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4120901811166270815
-    second: 1 1_0
+      213: 3745098044634477618
+    second: leftgODbOX_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,7 +139,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 1 1_0
+      name: leftgODbOX_0
       rect:
         serializedVersion: 2
         x: 4
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f5554d02d52603930800000000000000
-      internalID: 4120901811166270815
+      spriteID: 234b27744d249f330800000000000000
+      internalID: 3745098044634477618
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      1 1_0: 4120901811166270815
+      leftgODbOX_0: 3745098044634477618
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

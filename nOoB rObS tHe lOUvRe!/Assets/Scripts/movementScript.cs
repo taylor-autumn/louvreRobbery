@@ -8,7 +8,6 @@ public class movementScript : MonoBehaviour
     public static movementScript _myPlayer;
     public float speed=3;
     public Camera myCam;
-    public GameObject greyNonUIBG;
     public Animator guyAnimator;
     public GameObject notebook;
 
@@ -35,13 +34,12 @@ public class movementScript : MonoBehaviour
     void Start()
     {
         notebook.SetActive(false);
-        greyNonUIBG.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // STOP movement if notebook is open OR cafe mode is active
+        // STOP movement if in any of these modes
         if (changePgsRef.bookOpen || cafeWorkerClick.inCafeMode || clickButton.inInteractionMode || phoneShit.inPhoneMode)
         {
 
@@ -96,7 +94,6 @@ public class movementScript : MonoBehaviour
         if (collision.CompareTag("toLobby"))
         {
             myCam.transform.position = new Vector3(0, 0, -10);
-            greyNonUIBG.transform.position = new Vector3(0, 0, -10);
             if (transform.position.y < -5)
             {
                 //print("just broke in");
@@ -123,19 +120,16 @@ public class movementScript : MonoBehaviour
         if (collision.CompareTag("toCafe"))
         {
             myCam.transform.position = new Vector3(0, 11, -10);
-            greyNonUIBG.transform.position = new Vector3(0, 11, -10);
             transform.position = new Vector3(0, 8.2f, 0);
         }
         if (collision.CompareTag("toPaintings"))
         {
             myCam.transform.position = new Vector3(-20, 0, -10);
-            greyNonUIBG.transform.position = new Vector3(-20, 0, -10);
             transform.position = new Vector3(-13.5f, 0, 0);
         }
         if (collision.CompareTag("toJewels"))
         {
             myCam.transform.position = new Vector3(20, 0, -10);
-            greyNonUIBG.transform.position = new Vector3(20, 0, -10);
             transform.position = new Vector3(13.5f, 0, 0);
         }
     }

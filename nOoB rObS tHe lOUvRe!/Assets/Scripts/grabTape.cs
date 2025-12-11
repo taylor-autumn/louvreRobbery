@@ -26,6 +26,7 @@ public class grabTape : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !hasTape && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !clickButton.inInteractionMode && !changesPgRef.bookOpen)
         {
             tapeShit();
+            managerRef.notifBox("Tape Acquired!");
         }
     }
 

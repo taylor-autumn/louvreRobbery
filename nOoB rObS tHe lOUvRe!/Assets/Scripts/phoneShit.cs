@@ -7,12 +7,6 @@ public class phoneShit : MonoBehaviour
 
     public GameObject homeScreen;
     public GameObject wifiScreen;
-    //public GameObject IGScreenDraft;
-    //public GameObject IGScreenDraftWPhoto;
-    //public GameObject IGScreenPost;
-    //public GameObject photosScreenEmpty;
-    //public GameObject photosScreenFill;
-
 
     public GameObject currentIGMode;
     public GameObject currentPhotosMode;
@@ -70,7 +64,7 @@ public class phoneShit : MonoBehaviour
 
     public void goHomeScreen()
     {
-        if (!clickButton.inInteractionMode && !cafeWorkerClick.inCafeMode && !changePgRef.bookOpen && !openWallPaper.inSheetMode)
+        if (!clickButton.inInteractionMode && !cafeWorkerClick.inCafeMode && !changePgRef.bookOpen)
         {
             inPhoneMode = true;
             changePgRef.greyBG.SetActive(true);
@@ -96,7 +90,6 @@ public class phoneShit : MonoBehaviour
     {
         if (!wifiConnected)
         {
-            print("not connected to wifi");
             //play buzz sound here
         }
         else
@@ -113,7 +106,6 @@ public class phoneShit : MonoBehaviour
     {
         if (!wifiConnected)
         {
-            print("not connected to wifi");
             //play buzz sound here
         }
         else

@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class clickButton : MonoBehaviour
 {
@@ -11,11 +10,15 @@ public class clickButton : MonoBehaviour
     public bool taskCompleted = false;
     public taskManager managerRef;
     public string taskPrize;
+    public Animator prizePossessionAnimator;
 
     [Header("For the Notebook")]
     public Animator checkAnimator;
     //prob make a reference to the prizes animator so that it will be given to the guy
 
+    [Header("Mouse Shit")]
+    public GameObject mouse;
+    public Animator mouseAnimator;
 
     [Header("General")]
     public bool canBeClicked = true;
@@ -26,6 +29,10 @@ public class clickButton : MonoBehaviour
     public TMP_Text taskLine;
     public movementScript moveRef;
     public int bgSortingLayer;
+    public giveItem giveItemRef;
+    public changePages changePgRef;
+    public GameObject menu;
+    public buttonReveal buttonRevealRef;
 
     [Header("Conversation Info")]
     public string NPCname;
@@ -33,11 +40,8 @@ public class clickButton : MonoBehaviour
     public int currentIndex;
     public bool firstInteraction = true;
     public bool postTask = false;
-
-    [Header("Cafe Mode Shit")]
-    //public static bool inCafeMode = false;
-    public changePages changePgRef;
-    public GameObject menu;
+    public Animator guyAnimator;
+    
 
     [Header("In Interaction")]
     public static bool inInteractionMode = false;
@@ -62,19 +66,19 @@ public class clickButton : MonoBehaviour
         //}
 
 
-        if (gameObject.activeSelf && canBeClicked==true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !inInteractionMode && !openWallPaper.inSheetMode)
+        if (gameObject.activeSelf && canBeClicked==true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !inInteractionMode)
         {
             click();
         }
 
-        if (!changePgRef.bookOpen)
-        {
-            //NOTE FOR LATER, THIS DOESNT WORK, NOT A PRIORITY< it gets set active and the sorting order changes but for some reason it just doesnt show
-            changePgRef.greyBG.SetActive(cafeWorkerClick.inCafeMode);
-            moveRef.greyNonUIBG.SetActive(inInteractionMode);
-            SpriteRenderer spriteRenderer = moveRef.greyNonUIBG.gameObject.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingOrder = bgSortingLayer;
-        }
+        //if (!changePgRef.bookOpen)
+        //{
+        //    //NOTE FOR LATER, THIS DOESNT WORK, NOT A PRIORITY< it gets set active and the sorting order changes but for some reason it just doesnt show
+        //    changePgRef.greyBG.SetActive(cafeWorkerClick.inCafeMode);
+        //    moveRef.greyNonUIBG.SetActive(inInteractionMode);
+        //    SpriteRenderer spriteRenderer = moveRef.greyNonUIBG.gameObject.GetComponent<SpriteRenderer>();
+        //    spriteRenderer.sortingOrder = bgSortingLayer;
+        //}
 
         //if (CompareTag("cafeButton"))
         //{
@@ -85,12 +89,27 @@ public class clickButton : MonoBehaviour
 
     public void click()
     {
+        inInteractionMode = true;
         characterName.text = NPCname;
+
+        guyAnimator.SetBool("down", false);
+        guyAnimator.SetBool("up", false);
+        guyAnimator.SetBool("left", false);
+        guyAnimator.SetBool("right", false);
+
+        if (gameObject.CompareTag("mouseButton"))
+        {
+            mouse.SetActive(true);
+            mouseAnimator.SetBool("out", true);
+        }
+
+
         //if its the first interaction w this button, it should say the first line
         if (firstInteraction)
         {
             currentIndex = 0;
             taskLine.text = texts[currentIndex];
+            firstInteraction=false;
         }
         else
         {
@@ -103,9 +122,17 @@ public class clickButton : MonoBehaviour
                     currentIndex = 2;
                     taskLine.text = texts[currentIndex];
                     managerRef.completeTask(checkAnimator);
-                    giveItem giveItemRef = gameObject.GetComponent<giveItem>();
-                    giveItemRef.completeAnimation();
-
+                    buttonRevealRef.possessItem(prizePossessionAnimator);
+                    if (gameObject.CompareTag("mouseButton"))
+                    {
+                        StartCoroutine(giveItems());
+                    }
+                    else
+                    {
+                        giveItemRef.completeAnimation();
+                        giveItemRef.giveItem2();
+                    }
+                    
                 }
                 else
                 {
@@ -129,11 +156,6 @@ public class clickButton : MonoBehaviour
         godBoxAnimator.SetBool("fadeIn", true); //fades in god box
         StartCoroutine(spamProtection()); //wait coroutine for spam protection
         //taskLine.gameObject.SendMessage("CheckText", taskLine.text); 
-
-        if (CompareTag("normalButton"))
-        {
-            inInteractionMode = true;
-        }
     }
 
     //public void nextText()
@@ -146,6 +168,15 @@ public class clickButton : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
         interactAnimator.SetBool("click", false);
+    }
+
+    public IEnumerator giveItems()
+    {
+        yield return new WaitForSeconds(1f);
+        giveItemRef.giveItem2();
+        yield return new WaitForSeconds(1f);
+        giveItemRef.completeAnimation();
+        yield return new WaitForSeconds(1f);
     }
 
 }

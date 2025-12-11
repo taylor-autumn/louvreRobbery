@@ -6,13 +6,14 @@ public class openWallPaper : MonoBehaviour
 {
 
     public int whichPaper;
-    public static bool inSheetMode = false;
 
     public GameObject redHerring1;
     public GameObject redHerring2;
     public GameObject wifiPaper;
+    public GameObject TBDSign;
     public TMP_Text closeText;
     public changePages changesPgRef;
+    public Animator guyAnimator;
 
     public Animator interactAnimator;
     public bool canBeClicked = true;
@@ -39,7 +40,10 @@ public class openWallPaper : MonoBehaviour
 
     public void openPaper(int whichOne)
     {
-        inSheetMode = true;
+        guyAnimator.SetBool("down", false);
+        guyAnimator.SetBool("up", false);
+        guyAnimator.SetBool("left", false);
+        guyAnimator.SetBool("right", false);
 
         closeText.gameObject.SetActive(true);
         if (whichOne == 1)
@@ -47,6 +51,8 @@ public class openWallPaper : MonoBehaviour
             redHerring1.SetActive(true);
             redHerring2.SetActive(false);
             wifiPaper.SetActive(false);
+            TBDSign.SetActive(false);
+            closeText.color = Color.black;
             clickButton.inInteractionMode = true;
 
         }
@@ -55,6 +61,17 @@ public class openWallPaper : MonoBehaviour
             redHerring2.SetActive(true);
             redHerring1.SetActive(false);
             wifiPaper.SetActive(false);
+            TBDSign.SetActive(false);
+            closeText.color = Color.black;
+            clickButton.inInteractionMode = true;
+        }
+        else if (whichOne == 3)
+        {
+            redHerring1.SetActive(false);
+            redHerring2.SetActive(false);
+            wifiPaper.SetActive(false);
+            TBDSign.SetActive(true);
+            closeText.color = Color.white;
             clickButton.inInteractionMode = true;
         }
         else
@@ -62,6 +79,8 @@ public class openWallPaper : MonoBehaviour
             wifiPaper.SetActive(true);
             redHerring2.SetActive(false);
             redHerring1.SetActive(false);
+            TBDSign.SetActive(false);
+            closeText.color = Color.black;
             clickButton.inInteractionMode = true;
         }
 
@@ -72,10 +91,10 @@ public class openWallPaper : MonoBehaviour
 
     public void closePage()
     {
-        inSheetMode = false;
         redHerring1.SetActive(false);
         redHerring2.SetActive(false);
         wifiPaper.SetActive(false);
+        TBDSign.SetActive(false);
         closeText.gameObject.SetActive(false);
         clickButton.inInteractionMode = false;
     }

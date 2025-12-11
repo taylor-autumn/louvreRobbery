@@ -5,7 +5,6 @@ using UnityEngine;
 public class cafeWorkerClick : MonoBehaviour
 {
     
-
     [Header("General")]
     public bool canBeClicked = true;
     public taskManager managerRef;
@@ -15,6 +14,7 @@ public class cafeWorkerClick : MonoBehaviour
     public movementScript moveRef;
     public changePages changePgRef;
     public GameObject menu;
+    public Animator guyAnimator;
 
     [Header("Conversation Info")]
     public TMP_Text characterName;
@@ -23,6 +23,10 @@ public class cafeWorkerClick : MonoBehaviour
     public string NPCname;
 
     public static bool inCafeMode = false;
+
+    [Header("Check/Complete Task Notebook")]
+    public Animator checkAnimator;
+    public bool ringPopAchieved = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,8 +37,17 @@ public class cafeWorkerClick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!ringPopAchieved)
+        {
+            if (managerRef.checkInventory("ring pop"))
+            {
+                managerRef.completeTask(checkAnimator);
+                ringPopAchieved = true;
+            }
+        }
 
-        if (gameObject.activeSelf && canBeClicked == true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !clickButton.inInteractionMode && !changePgRef.bookOpen && !openWallPaper.inSheetMode)
+
+        if (gameObject.activeSelf && canBeClicked == true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !clickButton.inInteractionMode && !changePgRef.bookOpen)
         {
             click();
         }
@@ -56,6 +69,11 @@ public class cafeWorkerClick : MonoBehaviour
         characterName.text = NPCname;
         taskLine.text = cafeLine;
 
+        guyAnimator.SetBool("down", false);
+        guyAnimator.SetBool("up", false);
+        guyAnimator.SetBool("left", false);
+        guyAnimator.SetBool("right", false);
+
         canBeClicked = false; //spam protection
         interactAnimator.SetBool("click", true); //clicks button
         godBox.SetActive(true); //sets god box active
@@ -64,7 +82,7 @@ public class cafeWorkerClick : MonoBehaviour
 
         if (CompareTag("cafeButton"))
         {
-            cafeWorkerClick.inCafeMode = true;
+            inCafeMode = true;
         }
     }
 
