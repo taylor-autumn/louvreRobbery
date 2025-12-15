@@ -9,10 +9,10 @@ public class movementScript : MonoBehaviour
     public float speed=3;
     public Camera myCam;
     public Animator guyAnimator;
-    public GameObject notebook;
 
     public changePages changePgsRef;
     public clickButton clickRef;
+    public cutScene1Manager cutSceneRef;
 
     //public enum playerState
     //{
@@ -33,7 +33,7 @@ public class movementScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        notebook.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -94,22 +94,16 @@ public class movementScript : MonoBehaviour
         if (collision.CompareTag("toLobby"))
         {
             myCam.transform.position = new Vector3(0, 0, -10);
-            if (transform.position.y < -5)
-            {
-                //print("just broke in");
-                notebook.SetActive(true);
-                transform.position = new Vector3(0, 0, 0);
-            }
             if (transform.position.y > 5.49f)
             {
                 //print("from cafe");
                 transform.position = new Vector3(0, 2.74f, 0);
             }
-            if (transform.position.x > 10)
-            {
-                //print("from jewels");
-                transform.position = new Vector3(6.8f, 0, 0);
-            }
+            //if (transform.position.x > 10)
+            //{
+            //    //print("from jewels");
+            //    transform.position = new Vector3(6.8f, 0, 0);
+            //}
             if (transform.position.x < -10)
             {
                 //print("from paintings");
@@ -129,8 +123,7 @@ public class movementScript : MonoBehaviour
         }
         if (collision.CompareTag("toJewels"))
         {
-            myCam.transform.position = new Vector3(20, 0, -10);
-            transform.position = new Vector3(13.5f, 0, 0);
+            cutSceneRef.startFinal();
         }
     }
 

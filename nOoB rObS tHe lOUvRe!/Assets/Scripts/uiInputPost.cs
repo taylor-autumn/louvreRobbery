@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class uiInputPost : MonoBehaviour
@@ -23,23 +24,25 @@ public class uiInputPost : MonoBehaviour
 
         if (!posted)
         {
-            
-            posted = true;
-            phoneRef.currentIGMode.SetActive(false); //sets old screen out
-            postedIGScreen.SetActive(true); //sets new screen on
-            phoneRef.ChangeIGMode(postedIGScreen.gameObject); //changes it so future will always be post screen
-            managerRef.completeTask(checkAnimator); //completes task
-            captionText.text= caption;
-            
-            if (caption.Length < 30)
+            if (caption.Length > 1)
             {
-                captionText.fontSize = 65;
+                posted = true;
+                phoneRef.currentIGMode.SetActive(false); //sets old screen out
+                postedIGScreen.SetActive(true); //sets new screen on
+                phoneRef.ChangeIGMode(postedIGScreen.gameObject); //changes it so future will always be post screen
+                managerRef.completeTask(checkAnimator); //completes task
+                captionText.text = caption;
+
+                if (caption.Length < 30)
+                {
+                    captionText.fontSize = 65;
+                }
+                else
+                {
+                    captionText.fontSize = 45;
+                }
             }
-            else
-            {
-                captionText.fontSize = 45;
-            } 
-            print("posted");
+            
         }
     }
 

@@ -6,6 +6,7 @@ public class monaFlash : MonoBehaviour
     public GameObject flash;
     public GameObject guy;
     public GameObject tapedBanana;
+    public taskManager managerRef;
 
 
     //private void OnEnable()
@@ -20,9 +21,15 @@ public class monaFlash : MonoBehaviour
     public void enableFlash()
     {
         flash.SetActive(true);
+        managerRef.flashSound.Play();
         flash.transform.position = guy.transform.position;
         Invoke(nameof(disableFlash), .7f);
         //play sound
+    }
+
+    public void playFlashSound()
+    {
+        managerRef.flashSound.Play();
     }
 
     public void disableFlash()

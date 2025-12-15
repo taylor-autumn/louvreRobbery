@@ -69,10 +69,7 @@ public class cafeWorkerClick : MonoBehaviour
         characterName.text = NPCname;
         taskLine.text = cafeLine;
 
-        guyAnimator.SetBool("down", false);
-        guyAnimator.SetBool("up", false);
-        guyAnimator.SetBool("left", false);
-        guyAnimator.SetBool("right", false);
+        managerRef.resetGuyAnimations();
 
         canBeClicked = false; //spam protection
         interactAnimator.SetBool("click", true); //clicks button

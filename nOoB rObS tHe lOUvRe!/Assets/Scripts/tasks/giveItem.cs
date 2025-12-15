@@ -46,11 +46,8 @@ public class giveItem : MonoBehaviour
     //this triggers as a event in the animation triggered above
     public void advanceCharacterAnim()
     {
-        if (gameObject.CompareTag("phoneButton"))
-        {
-            targetCharacterAnim.SetBool("complete", true);
-            targetCharacterAnim2.SetBool("complete", true);
-        }
+        targetCharacterAnim.SetBool("complete", true);
+        targetCharacterAnim2.SetBool("complete", true);
     }
 
 }

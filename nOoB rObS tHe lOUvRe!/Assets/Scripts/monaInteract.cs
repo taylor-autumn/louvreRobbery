@@ -48,7 +48,7 @@ public class monaInteract : MonoBehaviour
     void Update()
     {
 
-        if (gameObject.activeSelf && canBeClicked == true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !clickButton.inInteractionMode)
+        if (gameObject.activeSelf && !godBox.activeSelf && canBeClicked == true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !clickButton.inInteractionMode && !changePgRef.bookOpen)
         {
             click();
         }
@@ -62,10 +62,7 @@ public class monaInteract : MonoBehaviour
 
         if (gameObject.CompareTag("monaButton"))
         {
-            guyAnimator.SetBool("down", false);
-            guyAnimator.SetBool("up", false);
-            guyAnimator.SetBool("left", false);
-            guyAnimator.SetBool("right", false);
+            managerRef.resetGuyAnimations();
 
 
             if (!managerRef.checkInventory("phone"))
@@ -103,10 +100,7 @@ public class monaInteract : MonoBehaviour
         }
         else if (gameObject.CompareTag("bananaButton"))
         {
-            guyAnimator.SetBool("down", false);
-            guyAnimator.SetBool("up", false);
-            guyAnimator.SetBool("left", false);
-            guyAnimator.SetBool("right", false);
+            managerRef.resetGuyAnimations();
 
             if (!managerRef.checkInventory("banana") && !managerRef.checkInventory("tape"))
             {

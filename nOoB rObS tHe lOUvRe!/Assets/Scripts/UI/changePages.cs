@@ -9,6 +9,7 @@ public class changePages : MonoBehaviour
     public GraphicRaycaster raycaster;
     public EventSystem eventSystem;
     public hintButton hintButtonRef;
+    public taskManager managerRef;
 
     //actual images
     public GameObject page1;
@@ -80,6 +81,7 @@ public class changePages : MonoBehaviour
                 {
                     if (!bookOpen)
                     {
+                        managerRef.resetGuyAnimations();
                         page1.SetActive(true);
                         page2.SetActive(false);
                         inventory.SetActive(false);

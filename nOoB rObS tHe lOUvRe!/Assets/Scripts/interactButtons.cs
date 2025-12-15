@@ -17,13 +17,19 @@ public class interactButtons : MonoBehaviour
     void Start()
     {
         interactionBox.SetActive(false);
-        phoneButton.SetActive(false);
+        if (!interactionBox.CompareTag("mouseButton") && !interactionBox.CompareTag("securityButton"))
+        {
+            phoneButton.SetActive(false);
+        }
     }
-
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)&& clickRef.godBox.activeSelf)
+        //note for the future, there is a bug here where it is possible the player spams two buttons fast
+        //and bc of the spammming, it just shuts off the god box and bc its not active like in the condition
+        //u get stuck. This can be fixed by making sure u cant spam one box after another but I don't have time rn lol
+
+        if (Input.GetKeyDown(KeyCode.Q) && clickRef.godBox.activeSelf)
         {
             clickRef.godBoxAnimator.SetBool("fadeIn", false);
             cafeWorkerClick.inCafeMode = false;
@@ -47,6 +53,14 @@ public class interactButtons : MonoBehaviour
             {
                 mouseAnimator.SetBool("out", false);
             }
+            if (interactionBox.CompareTag("securityButton"))
+            {
+                clickButton securityButtonScript = interactionBox.GetComponent<clickButton>();
+                if (securityButtonScript.taskCompleted)
+                {
+                    managerRef.completeSecurity();
+                }
+            }
         }
     }
 
@@ -68,7 +82,7 @@ public class interactButtons : MonoBehaviour
 
     public IEnumerator delayBoxInactive()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.3f);
         clickRef.godBox.SetActive(false);
         clickRef.canBeClicked = true;
     }

@@ -20,13 +20,11 @@ public class uiInputWindow : MonoBehaviour
             phoneShit.wifiConnected = true;
             connected = true;
             managerRef.completeTask(checkAnimator);
-            print("connected");
         }
         else if (!connected)
         {
             wifiStatusText.text = "*Not Connected*";
             wifiStatusText.color = Color.red;
-            print("not connected");
         }else if (connected)
         {
             wifiStatusText.text = "*Already Connected*";

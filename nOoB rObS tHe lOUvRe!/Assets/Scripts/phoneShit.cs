@@ -15,6 +15,7 @@ public class phoneShit : MonoBehaviour
     public TMP_Text closeText;
 
     public changePages changePgRef;
+    public taskManager managerRef;
 
     [Header("WIFI")]
     public GameObject noWifiSymbol1;
@@ -67,6 +68,7 @@ public class phoneShit : MonoBehaviour
         if (!clickButton.inInteractionMode && !cafeWorkerClick.inCafeMode && !changePgRef.bookOpen)
         {
             inPhoneMode = true;
+            managerRef.resetGuyAnimations();
             changePgRef.greyBG.SetActive(true);
             homeScreen.SetActive(true);
             wifiScreen.SetActive(false);

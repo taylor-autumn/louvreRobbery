@@ -14,6 +14,7 @@ public class openWallPaper : MonoBehaviour
     public TMP_Text closeText;
     public changePages changesPgRef;
     public Animator guyAnimator;
+    public taskManager managerRef;
 
     public Animator interactAnimator;
     public bool canBeClicked = true;
@@ -40,10 +41,7 @@ public class openWallPaper : MonoBehaviour
 
     public void openPaper(int whichOne)
     {
-        guyAnimator.SetBool("down", false);
-        guyAnimator.SetBool("up", false);
-        guyAnimator.SetBool("left", false);
-        guyAnimator.SetBool("right", false);
+        managerRef.resetGuyAnimations();
 
         closeText.gameObject.SetActive(true);
         if (whichOne == 1)

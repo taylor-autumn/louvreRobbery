@@ -66,7 +66,7 @@ public class clickButton : MonoBehaviour
         //}
 
 
-        if (gameObject.activeSelf && canBeClicked==true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !inInteractionMode)
+        if (gameObject.activeSelf && canBeClicked==true && Input.GetKeyDown(KeyCode.E) && !phoneShit.inPhoneMode && !cafeWorkerClick.inCafeMode && !inInteractionMode && !changePgRef.bookOpen)
         {
             click();
         }
@@ -92,10 +92,7 @@ public class clickButton : MonoBehaviour
         inInteractionMode = true;
         characterName.text = NPCname;
 
-        guyAnimator.SetBool("down", false);
-        guyAnimator.SetBool("up", false);
-        guyAnimator.SetBool("left", false);
-        guyAnimator.SetBool("right", false);
+        managerRef.resetGuyAnimations();
 
         if (gameObject.CompareTag("mouseButton"))
         {
@@ -105,7 +102,7 @@ public class clickButton : MonoBehaviour
 
 
         //if its the first interaction w this button, it should say the first line
-        if (firstInteraction)
+        if (firstInteraction && !gameObject.CompareTag("securityButton"))
         {
             currentIndex = 0;
             taskLine.text = texts[currentIndex];
@@ -122,12 +119,17 @@ public class clickButton : MonoBehaviour
                     currentIndex = 2;
                     taskLine.text = texts[currentIndex];
                     managerRef.completeTask(checkAnimator);
-                    buttonRevealRef.possessItem(prizePossessionAnimator);
+                    if (!gameObject.CompareTag("securityButton")) //doesn't add anything since there is no prize for security button
+                    {
+                        buttonRevealRef.possessItem(prizePossessionAnimator); //adds the item to the possessions UI tab
+                    }
+                    
                     if (gameObject.CompareTag("mouseButton"))
                     {
                         StartCoroutine(giveItems());
                     }
-                    else
+
+                    if (gameObject.CompareTag("phoneButton") || gameObject.CompareTag("securityButton"))
                     {
                         giveItemRef.completeAnimation();
                         giveItemRef.giveItem2();
@@ -174,10 +176,14 @@ public class clickButton : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         giveItemRef.giveItem2();
+        managerRef.AddToInventory("rose");
         yield return new WaitForSeconds(1f);
         giveItemRef.completeAnimation();
         yield return new WaitForSeconds(1f);
     }
+
+
+
 
 }
 

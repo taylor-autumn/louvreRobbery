@@ -18,6 +18,8 @@ TagManager:
   - bananaButton
   - mouseButton
   - phoneButton
+  - securityButton
+  - lightBeam
   layers:
   - Default
   - TransparentFX
